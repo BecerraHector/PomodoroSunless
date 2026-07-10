@@ -2,6 +2,8 @@
 
 Temporizador Pomodoro de escritorio con estética gótico-ciberpunk (paleta plata/carbón, tipografía Pirata One + IBM Plex Mono). Corre como una página web estática, sin dependencias ni build.
 
+**▶ Pruébalo en vivo: [becerrahector.github.io/PomodoroSunless](https://becerrahector.github.io/PomodoroSunless/)**
+
 ![Vista previa de Vigilia](docs/preview.png)
 
 ## Características
