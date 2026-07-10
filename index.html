@@ -31,14 +31,14 @@
         <span class="panel-tag">TAREAS</span>
       </div>
       <div class="tasks" id="tasks"></div>
-      <input class="add-task" id="add-task" placeholder="Añadir tarea ⏎" autocomplete="off">
+      <textarea class="add-task" id="add-task" placeholder="Añadir tarea ⏎" rows="1" autocomplete="off"></textarea>
     </aside>
 
     <main class="center">
       <div class="mode-row">
-        <svg width="96" height="18" viewBox="0 0 96 18"><path d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
+        <svg width="96" height="18" viewBox="0 0 96 18"><path class="divider-path" pathLength="100" d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
         <div class="mode-word" id="mode-word">Enfoque</div>
-        <svg width="96" height="18" viewBox="0 0 96 18" style="transform:scaleX(-1)"><path d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
+        <svg width="96" height="18" viewBox="0 0 96 18" style="transform:scaleX(-1)"><path class="divider-path" pathLength="100" d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
       </div>
 
       <div class="ring-wrap">
@@ -48,7 +48,7 @@
           <circle cx="210" cy="210" r="196" fill="none" stroke="#232227" stroke-width="1" stroke-dasharray="2 7"/>
           <circle cx="210" cy="210" r="180" fill="none" stroke="#2e2d33" stroke-width="2"/>
           <circle id="progress" cx="210" cy="210" r="180" fill="none" stroke="#c9c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="1131" stroke-dashoffset="1131" transform="rotate(-90 210 210)"/>
-          <rect x="205" y="6" width="8" height="8" transform="rotate(45 209 10)" fill="#c9c7cc"/>
+          <g class="crown"><rect x="205" y="6" width="8" height="8" transform="rotate(45 209 10)" fill="#c9c7cc"/></g>
         </svg>
         <div class="ring-inner">
           <div class="time" id="time">25:00</div>
@@ -90,9 +90,23 @@
             <button id="inc-short" aria-label="Más minutos de descanso">+</button>
           </div>
         </div>
+        <div class="dur-row">
+          <span class="dur-label">DESC. LARGO</span>
+          <div class="stepper">
+            <button id="dec-long" aria-label="Menos minutos de descanso largo">−</button>
+            <span class="val" id="long-min">15 min</span>
+            <button id="inc-long" aria-label="Más minutos de descanso largo">+</button>
+          </div>
+        </div>
       </div>
 
       <div class="modes" id="modes"></div>
+
+      <div class="stats">
+        <span class="panel-tag">CRÓNICA</span>
+        <div class="stat-row"><span class="dur-label">VIGILIAS HOY</span><span class="stat-val" id="stat-today">0</span></div>
+        <div class="stat-row"><span class="dur-label">RACHA</span><span class="stat-val" id="stat-streak">0 DÍAS</span></div>
+      </div>
 
       <div class="note">CADA IV CICLOS DE ENFOQUE → DESCANSO LARGO</div>
     </aside>
