@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vigilia — Pomodoro gótico</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='4.5' y='4.5' width='7' height='7' transform='rotate(45 8 8)' fill='none' stroke='%23c9c7cc' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Space+Grotesk:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 1 L12 23 M4 6 L20 18 M20 6 L4 18" stroke="#6f6a70" stroke-width="1" fill="none"/><rect x="9.5" y="9.5" width="5" height="5" transform="rotate(45 12 12)" fill="none" stroke="#c9c7cc" stroke-width="1"/></svg>
+      <span>Vigilia</span>
+    </div>
+    <div class="cycle-label">CICLO <span id="hdr-cycle">0</span> · <span id="hdr-mode">ENFOQUE</span></div>
+  </header>
+
+  <div class="cols">
+
+    <aside class="panel left">
+      <div class="panel-head">
+        <span class="panel-title">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0 L7 14 M2 4 L12 10 M12 4 L2 10" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
+          <b>Letanía</b>
+        </span>
+        <span class="panel-tag">TAREAS</span>
+      </div>
+      <div class="tasks" id="tasks"></div>
+      <input class="add-task" id="add-task" placeholder="Añadir tarea ⏎" autocomplete="off">
+    </aside>
+
+    <main class="center">
+      <div class="mode-row">
+        <svg width="96" height="18" viewBox="0 0 96 18"><path d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
+        <div class="mode-word" id="mode-word">Enfoque</div>
+        <svg width="96" height="18" viewBox="0 0 96 18" style="transform:scaleX(-1)"><path d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
+      </div>
+
+      <div class="ring-wrap">
+        <img class="mask" src="assets/mask-ghost.png" alt="">
+        <div class="veil"></div>
+        <svg width="420" height="420" viewBox="0 0 420 420">
+          <circle cx="210" cy="210" r="196" fill="none" stroke="#232227" stroke-width="1" stroke-dasharray="2 7"/>
+          <circle cx="210" cy="210" r="180" fill="none" stroke="#2e2d33" stroke-width="2"/>
+          <circle id="progress" cx="210" cy="210" r="180" fill="none" stroke="#c9c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="1131" stroke-dashoffset="1131" transform="rotate(-90 210 210)"/>
+          <rect x="205" y="6" width="8" height="8" transform="rotate(45 209 10)" fill="#c9c7cc"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="time" id="time">25:00</div>
+          <div class="time-tag">RESTANTE</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn-toggle" id="btn-toggle">Iniciar</button>
+        <button class="btn-reset" id="btn-reset">REINICIAR</button>
+      </div>
+
+      <div class="cycle-marks">
+        <div class="dots" id="dots"></div>
+        <svg width="72" height="26" viewBox="0 0 72 26"><path d="M36 4 L36 24 M36 9 Q26 13 20 24 M36 9 Q46 13 52 24 M10 16 L20 24 M62 16 L52 24" stroke="#39383f" stroke-width="1" fill="none"/><rect x="34" y="1" width="4" height="4" transform="rotate(45 36 3)" fill="#6f6a70"/></svg>
+      </div>
+    </main>
+
+    <aside class="panel right">
+      <span class="panel-title">
+        <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0 L7 14 M2 4 L12 10 M12 4 L2 10" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
+        <b>Ciclos</b>
+      </span>
+
+      <div class="dur-controls">
+        <div class="dur-row">
+          <span class="dur-label">ENFOQUE</span>
+          <div class="stepper">
+            <button id="dec-work" aria-label="Menos minutos de enfoque">−</button>
+            <span class="val" id="work-min">25 min</span>
+            <button id="inc-work" aria-label="Más minutos de enfoque">+</button>
+          </div>
+        </div>
+        <div class="dur-row">
+          <span class="dur-label">DESCANSO</span>
+          <div class="stepper">
+            <button id="dec-short" aria-label="Menos minutos de descanso">−</button>
+            <span class="val" id="short-min">5 min</span>
+            <button id="inc-short" aria-label="Más minutos de descanso">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modes" id="modes"></div>
+
+      <div class="note">CADA IV CICLOS DE ENFOQUE → DESCANSO LARGO</div>
+    </aside>
+  </div>
+
+  <footer class="foot">
+    <span>VIGILIA · TEMPORIS CUSTOS</span>
+    <svg width="140" height="12" viewBox="0 0 140 12"><path d="M0 6 L52 6 L58 1 L64 6 L70 11 L76 6 L82 1 L88 6 L140 6" stroke="#2e2d33" stroke-width="1" fill="none"/><rect x="68" y="4" width="4" height="4" transform="rotate(45 70 6)" fill="#4a484f"/></svg>
+    <span>MMXXVI</span>
+  </footer>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
