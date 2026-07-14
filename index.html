@@ -25,7 +25,7 @@
     <aside class="panel left">
       <div class="panel-head">
         <span class="panel-title">
-          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0 L7 14 M2 4 L12 10 M12 4 L2 10" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
+          <svg class="mark" width="16" height="16" viewBox="0 0 16 16"><path d="M8 1 L8 15 M8 5 Q4.5 6.5 2.5 12 M8 5 Q11.5 6.5 13.5 12 M4 2.5 L8 8 M12 2.5 L8 8" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
           <b>Letanía</b>
         </span>
         <span class="panel-tag">TAREAS</span>
@@ -35,6 +35,8 @@
     </aside>
 
     <main class="center">
+      <div class="relic relic-l" aria-hidden="true"></div>
+      <div class="relic relic-r" aria-hidden="true"></div>
       <div class="mode-row">
         <svg width="96" height="18" viewBox="0 0 96 18"><path class="divider-path" pathLength="100" d="M0 9 L38 9 L46 3 L54 9 L70 9 L76 13 L82 9 L92 9" stroke="#4a484f" stroke-width="1" fill="none"/><rect x="90" y="7" width="4" height="4" transform="rotate(45 92 9)" fill="#8f888e"/></svg>
         <div class="mode-word" id="mode-word">Enfoque</div>
@@ -44,11 +46,27 @@
       <div class="ring-wrap">
         <img class="mask" src="assets/mask-ghost.png" alt="">
         <div class="veil"></div>
+        <svg class="sigil-ring" viewBox="0 0 520 520" aria-hidden="true">
+          <g class="sigil-rot">
+            <g class="sig"><path pathLength="1" d="M260 62 L260 14 M260 46 Q246 36 240 12 M260 46 Q274 36 280 12 M260 32 L247 23 M260 32 L273 23"/><circle cx="260" cy="10" r="2"/></g>
+            <g class="sig" transform="rotate(90 260 260)"><path pathLength="1" d="M260 62 L260 14 M260 46 Q246 36 240 12 M260 46 Q274 36 280 12 M260 32 L247 23 M260 32 L273 23"/><circle cx="260" cy="10" r="2"/></g>
+            <g class="sig" transform="rotate(180 260 260)"><path pathLength="1" d="M260 62 L260 14 M260 46 Q246 36 240 12 M260 46 Q274 36 280 12 M260 32 L247 23 M260 32 L273 23"/><circle cx="260" cy="10" r="2"/></g>
+            <g class="sig" transform="rotate(270 260 260)"><path pathLength="1" d="M260 62 L260 14 M260 46 Q246 36 240 12 M260 46 Q274 36 280 12 M260 32 L247 23 M260 32 L273 23"/><circle cx="260" cy="10" r="2"/></g>
+            <g class="sig minor" transform="rotate(45 260 260)"><path pathLength="1" d="M260 54 L260 28 M260 44 L251 31 M260 44 L269 31"/></g>
+            <g class="sig minor" transform="rotate(135 260 260)"><path pathLength="1" d="M260 54 L260 28 M260 44 L251 31 M260 44 L269 31"/></g>
+            <g class="sig minor" transform="rotate(225 260 260)"><path pathLength="1" d="M260 54 L260 28 M260 44 L251 31 M260 44 L269 31"/></g>
+            <g class="sig minor" transform="rotate(315 260 260)"><path pathLength="1" d="M260 54 L260 28 M260 44 L251 31 M260 44 L269 31"/></g>
+          </g>
+        </svg>
         <svg width="420" height="420" viewBox="0 0 420 420">
           <circle cx="210" cy="210" r="196" fill="none" stroke="#232227" stroke-width="1" stroke-dasharray="2 7"/>
           <circle cx="210" cy="210" r="180" fill="none" stroke="#2e2d33" stroke-width="2"/>
           <circle id="progress" cx="210" cy="210" r="180" fill="none" stroke="#c9c7cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="1131" stroke-dashoffset="1131" transform="rotate(-90 210 210)"/>
           <g class="crown"><rect x="205" y="6" width="8" height="8" transform="rotate(45 209 10)" fill="#c9c7cc"/></g>
+          <g id="prog-head"><circle cx="210" cy="30" r="3.2" fill="#e9e7ea"/></g>
+        </svg>
+        <svg class="burst" viewBox="0 0 520 520" aria-hidden="true">
+          <path pathLength="1" d="M260 110 L260 52 M335 130 L364 80 M390 185 L440 156 M410 260 L468 260 M390 335 L440 364 M335 390 L364 440 M260 410 L260 468 M185 390 L156 440 M130 335 L80 364 M110 260 L52 260 M130 185 L80 156 M185 130 L156 80"/>
         </svg>
         <div class="ring-inner">
           <div class="time" id="time">25:00</div>
@@ -57,7 +75,11 @@
       </div>
 
       <div class="controls">
-        <button class="btn-toggle" id="btn-toggle">Iniciar</button>
+        <div class="cta">
+          <svg class="cta-wing flip" width="56" height="18" viewBox="0 0 56 18" aria-hidden="true"><path pathLength="1" d="M2 9 L54 9 M18 9 L31 3 M18 9 L31 15 M36 9 L47 4 M36 9 L47 14"/><circle cx="53" cy="9" r="2"/></svg>
+          <button class="btn-toggle" id="btn-toggle">Iniciar</button>
+          <svg class="cta-wing" width="56" height="18" viewBox="0 0 56 18" aria-hidden="true"><path pathLength="1" d="M2 9 L54 9 M18 9 L31 3 M18 9 L31 15 M36 9 L47 4 M36 9 L47 14"/><circle cx="53" cy="9" r="2"/></svg>
+        </div>
         <button class="btn-reset" id="btn-reset">REINICIAR</button>
       </div>
 
@@ -69,7 +91,7 @@
 
     <aside class="panel right">
       <span class="panel-title">
-        <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0 L7 14 M2 4 L12 10 M12 4 L2 10" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
+        <svg class="mark" width="16" height="16" viewBox="0 0 16 16"><path d="M8 1 L8 15 M8 5 Q4.5 6.5 2.5 12 M8 5 Q11.5 6.5 13.5 12 M4 2.5 L8 8 M12 2.5 L8 8" stroke="#4a484f" stroke-width="1" fill="none"/></svg>
         <b>Ciclos</b>
       </span>
 
@@ -114,7 +136,7 @@
 
   <footer class="foot">
     <span>VIGILIA · TEMPORIS CUSTOS</span>
-    <svg width="140" height="12" viewBox="0 0 140 12"><path d="M0 6 L52 6 L58 1 L64 6 L70 11 L76 6 L82 1 L88 6 L140 6" stroke="#2e2d33" stroke-width="1" fill="none"/><rect x="68" y="4" width="4" height="4" transform="rotate(45 70 6)" fill="#4a484f"/></svg>
+    <svg width="140" height="12" viewBox="0 0 140 12"><path class="foot-path" pathLength="100" d="M0 6 L52 6 L58 1 L64 6 L70 11 L76 6 L82 1 L88 6 L140 6" stroke="#2e2d33" stroke-width="1" fill="none"/><rect x="68" y="4" width="4" height="4" transform="rotate(45 70 6)" fill="#4a484f"/></svg>
     <span>MMXXVI</span>
   </footer>
 </div>

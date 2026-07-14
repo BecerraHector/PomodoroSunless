@@ -43,7 +43,8 @@
   const els = {
     app: document.querySelector('.app'),
     modeRow: document.querySelector('.mode-row'),
-    time: $('time'), progress: $('progress'), modeWord: $('mode-word'),
+    ringWrap: document.querySelector('.ring-wrap'),
+    time: $('time'), progress: $('progress'), progHead: $('prog-head'), modeWord: $('mode-word'),
     hdrCycle: $('hdr-cycle'), hdrMode: $('hdr-mode'),
     toggle: $('btn-toggle'), reset: $('btn-reset'),
     dots: $('dots'), modes: $('modes'), tasks: $('tasks'), addTask: $('add-task'),
@@ -143,6 +144,13 @@
     setTimeout(() => els.modeRow.classList.remove('redraw'), 900);
   }
 
+  /* Los sigilos del anillo se vuelven a trazar */
+  function resigil() {
+    els.ringWrap.classList.remove('resigil');
+    void els.ringWrap.offsetWidth;
+    els.ringWrap.classList.add('resigil');
+  }
+
   function ceremony() {
     els.app.classList.add('ceremony');
     setTimeout(() => els.app.classList.remove('ceremony'), 1400);
@@ -152,6 +160,7 @@
     state.mode = mode;
     easeRing();
     redrawDividers();
+    resigil();
   }
 
   /* ── Temporizador (contra reloj real, inmune al throttling) ── */
@@ -204,6 +213,7 @@
     const frac = Math.max(0, Math.min(1, state.remaining / dur(state.mode)));
     els.time.textContent = fmt(state.remaining);
     els.progress.setAttribute('stroke-dashoffset', String(Math.round(CIRC * frac)));
+    els.progHead.style.transform = 'rotate(' + ((1 - frac) * 360) + 'deg)';
     swapWord(WORD[state.mode]);
     els.hdrCycle.textContent = ROMAN_CYCLE[shownCycles()];
     els.hdrMode.textContent = WORD[state.mode].toUpperCase();
@@ -233,10 +243,24 @@
       c.classList.toggle('active', MODES[i] === state.mode));
   }
 
-  function renderTasks() {
-    els.tasks.replaceChildren(...state.tasks.map(t => {
+  function renderTasks(initial) {
+    if (!state.tasks.length) {
+      const empty = document.createElement('div');
+      empty.className = 'tasks-empty';
+      empty.innerHTML = '<svg width="26" height="40" viewBox="0 0 26 40" aria-hidden="true">'
+        + '<path d="M13 2 L13 38 M13 12 Q7 16 5 26 M13 12 Q19 16 21 26 M8 6 L13 14 M18 6 L13 14"/></svg>'
+        + '<span>LA LETANÍA ESTÁ VACÍA</span>';
+      els.tasks.replaceChildren(empty);
+      return;
+    }
+    els.tasks.replaceChildren(...state.tasks.map((t, i) => {
       const row = document.createElement('div');
       row.className = 'task' + (t.done ? ' done' : '');
+      // En la primera carga las tareas entran en cascada
+      if (initial) {
+        row.classList.add('reveal');
+        row.style.animationDelay = (0.35 + i * 0.07) + 's';
+      }
       const box = document.createElement('span');
       box.className = 'box';
       const name = document.createElement('span');
@@ -319,6 +343,7 @@
     setRunning(!state.running);
   });
 
-  renderTasks();
+  renderTasks(true);
   render();
+  resigil();
 })();

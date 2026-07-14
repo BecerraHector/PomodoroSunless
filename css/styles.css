@@ -59,10 +59,18 @@ body::after {
 .tasks { display: flex; flex-direction: column; overflow: auto; flex: 1; scrollbar-width: thin; scrollbar-color: var(--line-mid) transparent; }
 .task {
   display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
-  padding: 11px 2px; border-bottom: 1px solid var(--line-soft); user-select: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  padding: 11px 6px; border-bottom: 1px solid var(--line-soft); user-select: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
+.task:hover { background: linear-gradient(90deg, rgba(233,231,234,0.035), transparent 70%); }
 .task.leaving { opacity: 0; transform: translateX(10px); }
+.task.reveal { animation: fadeUp 0.5s ease both; }
+.tasks-empty {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; color: var(--tx-faint); font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.18em; animation: fadein 0.8s ease both;
+}
+.tasks-empty svg path { stroke: var(--border-dim); stroke-width: 1; fill: none; }
 .task .box {
   width: 11px; height: 11px; flex: none; margin-top: 5px; transform: rotate(45deg);
   border: 1px solid var(--tx-faint); background: transparent;
@@ -119,6 +127,44 @@ body::after {
   92% { opacity: 0.8; }
 }
 
+/* Reliquias cibersigilistas: recortes de la lámina (assets/sigilos.png).
+   El fondo negro de la lámina desaparece con mix-blend-mode: screen. */
+.relic {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background-image: url('../assets/sigilos.png');
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.3;
+  animation: relicflicker 15s ease-in-out infinite;
+}
+/* La hoz: recorte en L para excluir los glifos sueltos de la lámina */
+.relic-l {
+  left: 14px; width: 295px; height: 430px;
+  background-size: 691.2px 460.8px;
+  background-position: -25.2px -6.8px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 74% 100%, 74% 40%, 48% 40%, 48% 46%, 37% 46%, 37% 39%, 0 39%);
+}
+/* La katana y su vaina */
+.relic-r {
+  right: 14px; width: 179px; height: 425px;
+  background-size: 691.2px 460.8px;
+  background-position: -342px -13.5px;
+  animation-delay: -7s;
+}
+@keyframes relicflicker { 0%, 100% { opacity: 0.24; } 50% { opacity: 0.42; } }
+@keyframes bgflicker { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.65; } }
+
+/* Columna-tótem de la lámina como marca de agua simétrica en ambos paneles */
+.panel { position: relative; }
+.panel::after {
+  content: ''; position: absolute; left: 50%; bottom: 70px; z-index: -1;
+  transform: translateX(-50%);
+  width: 80px; height: 308px;
+  background: url('../assets/sigilos.png') no-repeat -434.7px -30.1px / 537.6px 358.4px;
+  mix-blend-mode: screen; opacity: 0.13; pointer-events: none;
+}
+
 .mode-row { display: flex; align-items: center; gap: 16px; position: relative; z-index: 2; }
 .mode-word {
   font-family: 'Pirata One', serif; font-size: 30px; color: var(--tx-mute);
@@ -170,7 +216,58 @@ body::after {
   background: radial-gradient(circle at center, rgba(20,19,24,0.72) 0%, rgba(20,19,24,0.35) 38%, rgba(20,19,24,0) 62%);
 }
 .ring-wrap svg { position: absolute; inset: 0; }
+
+/* ── Sigilos cibersigilistas alrededor del anillo ── */
+.ring-wrap .sigil-ring, .ring-wrap .burst {
+  position: absolute; inset: auto; left: 50%; top: 50%;
+  width: 520px; height: 520px; margin: -260px 0 0 -260px;
+  pointer-events: none;
+}
+.sigil-ring { transition: filter 0.8s ease; }
+.sigil-ring path {
+  stroke: var(--border-mid); stroke-width: 1; fill: none;
+  stroke-dasharray: 1; transition: stroke 0.8s ease;
+}
+.sigil-ring .minor path { stroke: var(--border-dim); }
+.sigil-ring circle { fill: var(--tx-mute); }
+.sigil-rot { transform-origin: 260px 260px; }
+.is-running .sigil-rot { animation: sigilspin 120s linear infinite; }
+@keyframes sigilspin { to { transform: rotate(-360deg); } }
+.is-running .sigil-ring path { stroke: #5a5660; }
+.is-ending .sigil-ring { filter: drop-shadow(0 0 6px rgba(233,231,234,0.28)); }
+.is-ending .sigil-ring path { stroke: var(--tx-mute); }
+
+/* Los sigilos se trazan a sí mismos al cargar y al cambiar de modo */
+@keyframes sigildraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes dotfade { from { opacity: 0; } to { opacity: 1; } }
+.ring-wrap.resigil .sigil-ring path { animation: sigildraw 1s cubic-bezier(0.45, 0, 0.2, 1) both; }
+.ring-wrap.resigil .sigil-rot g:nth-child(2) path { animation-delay: 0.06s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(3) path { animation-delay: 0.12s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(4) path { animation-delay: 0.18s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(5) path { animation-delay: 0.28s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(6) path { animation-delay: 0.32s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(7) path { animation-delay: 0.36s; }
+.ring-wrap.resigil .sigil-rot g:nth-child(8) path { animation-delay: 0.40s; }
+.ring-wrap.resigil .sigil-ring circle { animation: dotfade 0.5s ease 0.85s both; }
+
+/* Estallido de sigilos al consumarse un ciclo */
+.burst { opacity: 0; transform-origin: center; }
+.burst path { stroke: var(--tx); stroke-width: 1; fill: none; }
+.app.ceremony .burst { animation: burstout 1.3s cubic-bezier(0.2, 0.6, 0.3, 1) both; }
+@keyframes burstout {
+  0% { opacity: 0; transform: scale(0.72) rotate(-6deg); }
+  20% { opacity: 0.9; }
+  100% { opacity: 0; transform: scale(1.14) rotate(3deg); }
+}
+
 #progress { transition: stroke-dashoffset 0.5s linear; }
+#prog-head {
+  transform-origin: 210px 210px; transition: transform 0.5s linear;
+  filter: drop-shadow(0 0 5px rgba(233,231,234,0.55));
+}
+.is-ending #progress { stroke: var(--tx-bright); filter: drop-shadow(0 0 6px rgba(233,231,234,0.45)); }
+.is-ending .time { animation: timebeat 1s ease-in-out infinite; }
+@keyframes timebeat { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
 .crown { transform-box: fill-box; transform-origin: center; }
 .is-running .ring-wrap .crown { animation: crownspin 12s linear infinite; }
 @keyframes crownspin { to { transform: rotate(360deg); } }
@@ -187,23 +284,39 @@ body::after {
 }
 .time-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.28em; color: var(--tx-dim); }
 
-.controls { display: flex; align-items: center; gap: 16px; }
+.controls { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cta { display: flex; align-items: center; gap: 16px; }
 .btn-toggle {
-  padding: 13px 46px; border: 1px solid var(--tx); background: transparent;
+  padding: 14px 52px; border: 1px solid var(--tx); background: transparent;
   font-family: 'Pirata One', serif; font-size: 22px; color: var(--tx-bright); cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.45s ease;
+  transition: background 0.3s ease, box-shadow 0.45s ease, transform 0.15s ease;
 }
 .btn-toggle:hover {
   background: var(--line);
   box-shadow: 0 0 20px rgba(201,199,204,0.12), inset 0 0 10px rgba(201,199,204,0.05);
 }
-.btn-reset {
-  padding: 14px 20px; border: 1px solid var(--border-dim); background: transparent;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
-  color: var(--tx-mute); cursor: pointer;
-  transition: color 0.25s ease, border-color 0.25s ease;
+.btn-toggle:active { transform: scale(0.96); }
+/* Llamada a la acción: el botón respira mientras la vigilia no ha comenzado */
+.app:not(.is-running) .btn-toggle { animation: beckon 3.2s ease-in-out infinite; }
+@keyframes beckon {
+  0%, 100% { box-shadow: 0 0 0 rgba(201,199,204,0); }
+  50% { box-shadow: 0 0 26px rgba(201,199,204,0.16), inset 0 0 12px rgba(201,199,204,0.05); }
 }
-.btn-reset:hover { color: var(--tx-bright); border-color: var(--tx-mute); }
+.cta-wing { flex: none; opacity: 0.9; transition: opacity 0.6s ease; }
+.cta-wing.flip { transform: scaleX(-1); }
+.is-running .cta-wing { opacity: 0.3; }
+.cta-wing path {
+  stroke: var(--border-mid); stroke-width: 1; fill: none;
+  stroke-dasharray: 1; animation: sigildraw 1.1s ease 0.8s both;
+}
+.cta-wing circle { fill: var(--tx-mute); animation: dotfade 0.5s ease 1.7s both; }
+.btn-reset {
+  padding: 8px 14px; border: none; background: transparent;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+  color: var(--tx-faint); cursor: pointer;
+  transition: color 0.25s ease, letter-spacing 0.25s ease;
+}
+.btn-reset:hover { color: var(--tx-bright); letter-spacing: 0.3em; }
 
 .cycle-marks { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .dots { display: flex; gap: 12px; }
@@ -212,7 +325,7 @@ body::after {
   border: 1px solid var(--border-mid); background: transparent;
   transition: background 0.3s ease, transform 0.4s ease;
 }
-.dot.on { background: var(--tx); transform: rotate(135deg); }
+.dot.on { background: var(--tx); transform: rotate(135deg); box-shadow: 0 0 8px rgba(201,199,204,0.35); }
 
 /* ── Panel: Ciclos ── */
 .dur-row {
@@ -226,7 +339,7 @@ body::after {
   color: var(--tx); cursor: pointer; font-family: 'IBM Plex Mono', monospace;
   transition: border-color 0.25s ease;
 }
-.stepper button:hover { border-color: var(--tx); }
+.stepper button:hover { border-color: var(--tx); background: var(--line); }
 .stepper .val {
   font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--tx-bright);
   min-width: 52px; text-align: center;
@@ -239,9 +352,9 @@ body::after {
   padding: 9px 14px; border: 1px solid var(--border-dim); color: var(--tx-mute);
   background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px;
   letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; text-align: left;
-  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
-.chip:hover { border-color: var(--tx); }
+.chip:hover { border-color: var(--tx); transform: translateX(3px); }
 .chip.active { border-color: var(--tx); color: var(--tx-bright); background: var(--line); }
 
 /* ── Crónica: estadísticas ── */
@@ -260,10 +373,29 @@ body::after {
   padding: 13px 28px; border-top: 1px solid var(--line); flex: none;
   font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--tx-dim);
 }
+.foot-path { stroke-dasharray: 100; animation: drawline 1.4s ease 0.6s both; }
+
+/* ── Coreografía de entrada ── */
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.top { animation: fadeDown 0.6s ease both; }
+.panel.left { animation: fadein 0.7s ease 0.1s both; }
+.panel.right { animation: fadein 0.7s ease 0.18s both; }
+.foot { animation: fadein 0.8s ease 0.3s both; }
+.mode-row { animation: fadeUp 0.7s ease 0.15s both; }
+/* Solo opacidad: el transform del anillo lo gobierna la media query de altura */
+.ring-wrap { animation: fadein 0.9s ease 0.25s both; }
+.controls { animation: fadeUp 0.7s ease 0.35s both; }
+.cycle-marks { animation: fadeUp 0.7s ease 0.45s both; }
 
 @media (max-height: 810px) {
   .center { gap: 18px; }
   .ring-wrap { transform: scale(0.84); margin: -34px 0; }
+}
+
+@media (max-width: 1360px) {
+  .relic { display: none; }
 }
 
 @media (max-width: 1100px) {
